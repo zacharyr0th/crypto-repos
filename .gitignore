@@ -1,10 +1,16 @@
-# Environment variables - STRICT RULES
-# Ignore all environment files
+# =================================================================
+# SECURITY & SENSITIVE FILES - STRICT RULES
+# =================================================================
+
+# Environment & Secret Files
 .env
 .env.*
 .env-*
 .env_*
 *.env
+**/.env
+**/*.env
+.envrc
 .env.local
 .env.development
 .env.test
@@ -16,222 +22,210 @@
 .env.*.staging
 .env.*.production
 
-# Only allow example environment files
+# Hasura specific
+hasura/.env
+hasura/**/.env
+hasura/**/*.env
+hasura/config.yaml
+hasura/**/config.yaml
+hasura/metadata/databases/databases.yaml
+
+# Secrets and Keys
+**/*secret*
+**/*key*
+**/*.key
+**/*.pem
+**/*.crt
+**/*.csr
+**/*.p12
+**/*.pfx
+**/*.srl
+.secret*
+.key*
+.password*
+.token*
+.credential*
+**/secrets/
+**/credentials/
+**/private/
+wallet.json
+keystore/
+.mnemonic
+.private-keys
+**/*_rsa
+**/*_ecdsa
+**/*_ed25519
+aws.json
+gcp.json
+azure.json
+
+# ALLOW Example Files (Must be last in secrets section)
 !.env.example
 !.env.*.example
 !.env.example.*
+!hasura/.env.example
+!example.env
+!template.env
 
-# Dependencies
+# =================================================================
+# BUILD & DEPENDENCY DIRECTORIES
+# =================================================================
+
+# Node & Package Managers
 node_modules/
 .pnpm-store/
-
-# Build outputs
-.next/
-out/
-build/
-dist/
-
-# Debug logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-
-# System files
-.DS_Store
-*.pem
-
-# IDE
-.idea/
-.vscode/
-*.swp
-*.swo
-
-# Vercel
-.vercel
-
-# Testing
-coverage/
-
-# Typescript
-*.tsbuildinfo
-next-env.d.ts
-
-# dependencies
-/node_modules
-/.pnp
-.pnp.*
+.npm/
 .yarn/*
 !.yarn/patches
 !.yarn/plugins
 !.yarn/releases
 !.yarn/versions
+.pnp.*
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
 
-# testing
-/coverage
-
-# next.js
-/.next/
-/out/
-
-# production
-/build
-
-# misc
-.DS_Store
-*.pem
-
-# debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-.pnpm-debug.log*
-
-# env files (can opt-in for committing if needed)
-.env*
-!.env.local.example
-!.env.production.example
-
-# vercel
-.vercel
-
-# typescript
-*.tsbuildinfo
-# next-env.d.ts
-
-# Project specific directories
-/dist/
-/analyze/
-/gitcoin/
-/cache/
-/logs/
-logs/
-
-# cache files
+# Build Outputs
+.next/
+out/
+build/
+dist/
+.output/
+.nuxt/
+.vuepress/dist
+.serverless/
+.fusebox/
+.dynamodb/
+.tern-port
 .cache/
-*.cache
-.eslintcache
-.stylelintcache
-.parcel-cache
-# /cache/  # Root cache directory containing JSON files
+.parcel-cache/
+.rollup.cache/
+.temp/
+.tmp/
+.cache-loader/
 
-# Environment files
-.env
-.env.local
-.env.*.local
-.env.development
-.env.test
-.env.production
+# =================================================================
+# IDE & EDITOR FILES
+# =================================================================
 
-# Keep example files
-!.env.example
-!.env.example.*
-!.env.local.example
-!.env.production.example
+# VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
 
-# Logs
-*.log
-combined.log
-error.log
+# JetBrains IDEs
+.idea/
+*.iml
+*.iws
+.idea_modules/
 
-# Backup files
+# Other Editors
+*.swp
+*.swo
+*.swn
 *.bak
+*~
+.project
+.classpath
+.settings/
+*.sublime-workspace
+*.sublime-project
 
-# OS files
+# =================================================================
+# OPERATING SYSTEM FILES
+# =================================================================
+
+# macOS
+.DS_Store
 .DS_Store?
 ._*
 .Spotlight-V100
 .Trashes
+ehthumbs.db
+Thumbs.db
+*.DS_Store
 
-# IDE specific files
-.idea/
-.vscode/
-*.swp
-*.swo
-*.swn
-*.sublime-workspace
-*.sublime-project
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
 
-# Hardhat files
-cache/
-artifacts/
-typechain/
-typechain-types/
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
 
-# Foundry files
-out/
-forge-cache/
-broadcast/
+# =================================================================
+# TESTING & DEBUGGING
+# =================================================================
 
-# Truffle files
-build/
-.openzeppelin/
-
-# Blockchain development
-deployments/
-ganache/
-
-# Solidity coverage
+# Test Coverage
 coverage/
+.nyc_output/
 coverage.json
+*.lcov
 
-# Secret management
-**/secrets.json
-**/secrets.js
-.secret
-.mnemonic
-.private-keys
-wallet.json
-**/credentials.json
+# Debug Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.log
+logs/
+log/
+combined.log
+error.log
+debug.log
 
-# Package managers
-# yarn.lock
-# package-lock.json
-# pnpm-lock.yaml
-
-# Local blockchain data
-.ethereum/
-.geth/
-chaindata/
-
-# Documentation
-docs/_build/
-_site/
-.docusaurus
-
-# Performance and profiling
+# Performance & Profiling
 *.heapprofile
 *.cpuprofile
 .clinic/
+profile/
+*.prof
 
-# Temporary files
-*.tmp
-*~
-.temp/
-.tmp/
-tmp/
+# =================================================================
+# PROJECT SPECIFIC
+# =================================================================
 
-# Database files
-*.sqlite
-*.db
-*.sql
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+tsconfig.tsbuildinfo
 
-# Compiled contracts
+# Blockchain & Smart Contracts
+artifacts/
+cache/
+typechain/
+typechain-types/
+forge-cache/
+broadcast/
+.openzeppelin/
+deployments/
+.ethereum/
+.geth/
+chaindata/
 *.bin
 *.abi
 
-# Key files and certificates
-*.pem
-*.key
-*.crt
-*.csr
-*.srl
-
-# Database dumps and migration files
+# Database
+*.sqlite
+*.sqlite3
+*.db
+dump.sql
+*.sql
+*.sql.gz
 **/backup.sql.gz
 **/crypto_repos_backup.sql.gz
 **/crypto_repos_dump.dump
 **/DATABASE_URL
+
+# Migration Scripts
 **/convert_dump.py
 **/fix_dump.py
 **/fix_dump.sh
@@ -240,6 +234,21 @@ tmp/
 **/migrate_contributors.sh
 **/migrate_contributors_test.sh
 
-# Test logs
-logs/
-.env\n.env.*\n!.env.example\nnode_modules/\n.next/\n.vercel/\n*.log
+# Vercel
+.vercel/
+.now/
+
+# Documentation
+docs/_build/
+_site/
+.docusaurus
+.vuepress/dist/
+
+# Project Directories
+/dist/
+/analyze/
+/gitcoin/
+/cache/
+/logs/
+tmp/
+temp/
