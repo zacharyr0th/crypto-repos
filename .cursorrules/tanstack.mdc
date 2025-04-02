@@ -1,0 +1,160 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+---
+description: Rules and best practices for using Tanstack libraries in the project
+globs: ["**/*.{ts,tsx,js,jsx}"]
+---
+
+## Database Integration
+
+- Use environment variables for database configuration:
+  ```typescript
+  const dbConfig = {
+    host: process.env.POSTGRES_HOST,
+    port: parseInt(process.env.POSTGRES_PORT),
+    database: process.env.POSTGRES_DB,
+    user: process.env.POSTGRES_USER
+  }
+  ```
+
+## Repository Types
+
+```typescript
+interface Repository {
+  id: number;
+  name: string;
+  full_name: string;
+  description: string | null;
+  html_url: string;
+  homepage: string | null;
+  language: string | null;
+  stargazers_count: number;
+  watchers_count: number;
+  forks_count: number;
+  fork: boolean;
+  owner_html_url: string;
+  created_at: Date;
+  updated_at: Date;
+  pushed_at: Date | null;
+  license_name: string | null;
+  languages_url: string;
+  ecosystem: string;
+  category: string;
+  contributors_count: number;
+}
+
+interface Contributor {
+  repository_id: number;
+  contributor_login: string;
+  contributor_html_url: string;
+  contributor_avatar_url: string | null;
+  contributions_count: number;
+}
+```
+
+## Query Keys
+
+- Repository queries:
+  ```typescript
+  ['repositories'] // List
+  ['repository', id] // Single
+  ['repositories', { ecosystem, language }] // Filtered
+  ['repositories', { sort: 'stars' }] // Sorted
+  ['repositories', { category, stars: '>100' }] // Complex filters
+  ```
+
+- Contributor queries:
+  ```typescript
+  ['contributors', repositoryId]
+  ['contributor', { login, repoId }]
+  ```
+
+## Query Configuration
+
+```typescript
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60 * 5, // 5 minutes
+      cacheTime: 1000 * 60 * 30, // 30 minutes
+      retry: 3,
+      retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
+    },
+  },
+})
+```
+
+## Table Configuration
+
+```typescript
+const columns = [
+  {
+    id: 'name',
+    accessorKey: 'name',
+    enableSorting: true,
+  },
+  {
+    id: 'stars',
+    accessorKey: 'stargazers_count',
+    enableSorting: true,
+  },
+  {
+    id: 'ecosystem',
+    accessorKey: 'ecosystem',
+    filterFn: 'equals',
+  },
+  {
+    id: 'contributors',
+    accessorKey: 'contributors_count',
+    enableSorting: true,
+  }
+]
+```
+
+## Form Schemas
+
+```typescript
+const repositoryFilterSchema = z.object({
+  ecosystem: z.string().optional(),
+  language: z.string().optional(),
+  category: z.string().optional(),
+  minStars: z.number().optional(),
+  hasContributors: z.boolean().optional()
+})
+```
+
+## Performance Optimizations
+
+- Use select for specific fields:
+  ```typescript
+  useQuery(['repositories'], fetchRepos, {
+    select: (data) => data.map(({ id, name, stars }) => ({ id, name, stars }))
+  })
+  ```
+
+- Implement infinite queries for large lists:
+  ```typescript
+  useInfiniteQuery(['repositories'], 
+    ({ pageParam = 0 }) => fetchRepoPage(pageParam),
+    {
+      getNextPageParam: (lastPage) => lastPage.nextCursor
+    }
+  )
+  ```
+
+## Best Practices
+
+- Keep query and mutation logic in separate hooks
+- Implement error boundaries for graceful error handling
+- Use the devtools in development for debugging
+- Optimize re-renders by leveraging the select option
+- Use TypeScript for type safety
+- Follow the database schema structure
+- Leverage existing indexes in queries
+- Implement proper pagination
+
+@file ../tsconfig.json
+@file ../package.json

@@ -1,0 +1,66 @@
+/* Base Styles
+ * This file contains fundamental styles and resets for the application.
+ */
+
+@tailwind base;
+
+@layer base {
+  * {
+    @apply border-border;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  *::-webkit-scrollbar {
+    display: none;
+  }
+
+  :root {
+    color-scheme: light;
+  }
+
+  :root[class~='dark'] {
+    color-scheme: dark;
+  }
+
+  body {
+    font-family: var(--font-geist-mono);
+    font-weight: var(--mono-font-weight);
+    font-size: var(--mono-font-size-base);
+    line-height: var(--mono-line-height);
+    letter-spacing: var(--mono-letter-spacing);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings:
+      'calt' 0,
+      'ss01' 1,
+      'zero' 1,
+      'cv02' 1,
+      'cv03' 1,
+      'cv04' 1;
+    font-variant-ligatures: none;
+    text-rendering: optimizeLegibility;
+    @apply bg-background text-foreground min-h-screen overflow-x-hidden;
+  }
+
+  pre,
+  code,
+  kbd,
+  samp {
+    font-family: var(--font-geist-mono);
+    font-weight: var(--mono-font-weight);
+    letter-spacing: var(--mono-letter-spacing);
+    font-feature-settings:
+      'calt' 0,
+      'ss01' 1,
+      'zero' 1,
+      'cv02' 1,
+      'cv03' 1,
+      'cv04' 1;
+    font-variant-ligatures: none;
+  }
+
+  :focus-visible {
+    @apply outline-none ring-2 ring-primary-500 ring-offset-2 dark:ring-offset-[#0A0A0B];
+  }
+}

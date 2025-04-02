@@ -1,0 +1,91 @@
+/* Layout Styles
+ * This file contains styles for layout components and structure.
+ */
+
+@tailwind components;
+
+@layer components {
+  /* Layout components */
+  .app-container {
+    @apply relative min-h-screen bg-gray-50 dark:bg-[#0A0A0B];
+    padding-top: var(--header-height);
+  }
+
+  .container-padding {
+    @apply px-4 sm:px-6 lg:px-8;
+  }
+
+  .left-sidebar {
+    @apply fixed left-0 bg-gray-50 dark:bg-[#0A0A0B] border-r border-gray-200/50 dark:border-gray-800/30 z-20;
+    top: var(--header-height);
+    width: var(--sidebar-width);
+    height: calc(100vh - var(--header-height));
+    overflow-y: auto;
+  }
+
+  .main-content {
+    @apply relative;
+    margin-left: var(--sidebar-width);
+    min-height: calc(100vh - var(--header-height));
+  }
+
+  .content-area {
+    @apply w-full mx-auto;
+    max-width: var(--content-max-width);
+    padding: var(--space-6);
+  }
+
+  /* Mobile styles */
+  @media (max-width: 1024px) {
+    .left-sidebar {
+      @apply transform -translate-x-full transition-transform duration-200 ease-in-out shadow-lg;
+    }
+
+    .left-sidebar.open {
+      @apply translate-x-0;
+    }
+
+    .main-content {
+      margin-left: 0;
+      width: 100%;
+    }
+  }
+
+  .sidebar-overlay {
+    @apply fixed inset-0 bg-black/50 backdrop-blur-sm z-10 hidden transition-opacity duration-200;
+  }
+
+  .sidebar-overlay-visible {
+    @apply block lg:hidden;
+  }
+
+  /* Navigation components */
+  .menu-button {
+    @apply fixed top-4 left-4 z-50 flex items-center justify-center 
+           w-[var(--menu-button-size)] h-[var(--menu-button-size)] 
+           rounded-lg bg-white dark:bg-gray-800 dark:text-gray-200
+           shadow-md lg:hidden;
+  }
+
+  .menu-button:hover {
+    @apply bg-gray-100 dark:bg-gray-700;
+  }
+
+  .menu-button:active {
+    @apply bg-gray-200 dark:bg-gray-600;
+  }
+
+  /* Sidebar Module Styles */
+  .sidebar-module {
+    @apply bg-white transition-colors duration-200;
+    border-right: 1px solid rgba(229, 231, 235, 0.5);
+  }
+
+  html.dark .sidebar-module,
+  .dark-sidebar,
+  .sidebar-module.dark-sidebar {
+    @apply bg-[#0A0A0B];
+    color-scheme: dark;
+    border-right: 1px solid rgba(31, 41, 55, 0.3);
+  }
+}

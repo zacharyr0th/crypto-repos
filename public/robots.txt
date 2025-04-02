@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# Disallow API and admin routes
+Disallow: /api/*
+Disallow: /admin/*
+
+# Sitemap
+Sitemap: https://crypto-repos.com/sitemap.xml

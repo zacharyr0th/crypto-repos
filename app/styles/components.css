@@ -1,0 +1,174 @@
+/* Component Styles
+ * This file contains styles for reusable components throughout the application.
+ */
+
+@tailwind components;
+
+@layer components {
+  /* Common components */
+  .btn {
+    @apply px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg transition-all duration-200 
+           text-sm font-medium;
+    letter-spacing: var(--mono-letter-spacing);
+    font-weight: var(--mono-font-weight);
+  }
+
+  .btn-primary {
+    @apply bg-primary-600 text-white hover:bg-primary-700 
+           shadow-sm hover:shadow-md transition-all duration-200;
+  }
+
+  .btn-secondary {
+    @apply border border-gray-200 dark:border-gray-700 
+           hover:border-gray-300 dark:hover:border-gray-600 
+           bg-white dark:bg-gray-800 hover:bg-gray-50 
+           dark:hover:bg-gray-700 transition-all duration-200;
+  }
+
+  .card {
+    @apply bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl 
+           transition-all duration-300 rounded-xl p-4 sm:p-6 
+           border border-gray-100 dark:border-gray-700
+           backdrop-blur-sm backdrop-filter;
+  }
+
+  /* Repository card */
+  .repo-card {
+    @apply relative flex flex-col p-3 sm:p-4 lg:p-6 font-mono transition-all duration-300
+           bg-white/5 dark:bg-gray-800/80 backdrop-blur-md
+           border border-gray-200/20 dark:border-gray-700/30 rounded-xl
+           hover:shadow-lg hover:border-gray-300/30 dark:hover:border-gray-600/40
+           hover:scale-[1.01] transform;
+  }
+
+  .repo-card-title {
+    @apply text-base sm:text-lg truncate font-medium text-gray-100 dark:text-white;
+    letter-spacing: var(--mono-letter-spacing);
+    font-weight: var(--mono-font-weight);
+  }
+
+  .repo-card-description {
+    @apply text-xs sm:text-sm text-gray-300 dark:text-gray-400 mb-3 sm:mb-4 line-clamp-2;
+    letter-spacing: var(--mono-letter-spacing);
+  }
+
+  .repo-card-metrics {
+    @apply grid grid-cols-4 gap-1.5 sm:gap-2 mb-3 sm:mb-4;
+  }
+
+  .repo-card-metric {
+    @apply flex flex-col items-center gap-1 p-1.5 sm:p-2 rounded-lg bg-white/5;
+  }
+
+  .repo-card-metric-label {
+    @apply text-[10px] sm:text-xs uppercase tracking-wider text-gray-400;
+  }
+
+  .repo-card-metric-value {
+    @apply text-sm sm:text-base tabular-nums font-medium text-primary-400;
+    letter-spacing: var(--mono-letter-spacing);
+    font-weight: var(--mono-font-weight);
+  }
+
+  /* Search bar */
+  .search-bar {
+    @apply relative flex items-center gap-2 sm:gap-3 w-full;
+  }
+
+  .search-input {
+    @apply w-full h-10 sm:h-12 px-3 sm:px-4 py-2 sm:py-3
+           bg-white/5 dark:bg-gray-800/50
+           border border-gray-200/20 dark:border-gray-700/30
+           rounded-lg text-sm sm:text-base
+           placeholder-gray-400 dark:placeholder-gray-500
+           focus:outline-none focus:ring-2 focus:ring-primary-500
+           transition-all duration-200;
+    letter-spacing: var(--mono-letter-spacing);
+    font-weight: var(--mono-font-weight);
+  }
+
+  .search-button {
+    @apply flex-shrink-0 h-10 sm:h-12 px-3 sm:px-4
+           flex items-center justify-center gap-2
+           rounded-lg bg-primary-600 text-white
+           hover:bg-primary-700 active:bg-primary-800
+           transition-colors duration-200;
+  }
+
+  /* Filter buttons */
+  .filter-button {
+    @apply flex items-center gap-2 px-3 py-2 rounded-md
+           text-sm font-medium
+           text-gray-800 dark:text-gray-200
+           hover:bg-gray-100 dark:hover:bg-gray-900/40
+           border border-gray-200 dark:border-gray-800
+           transition-all duration-200;
+  }
+
+  .filter-button-active {
+    @apply bg-gray-100 dark:bg-gray-900
+           border-gray-300 dark:border-gray-700
+           text-gray-900 dark:text-white;
+  }
+
+  /* Repository Carousel Drawer */
+  .carousel-scroll {
+    @apply flex gap-4 pb-6 overflow-x-auto snap-x;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* For Firefox */
+    -ms-overflow-style: none; /* For Internet Explorer and Edge */
+  }
+
+  .carousel-scroll::-webkit-scrollbar {
+    display: none; /* Hide scrollbar for Chrome, Safari and Opera */
+  }
+
+  .carousel-card {
+    @apply flex-none w-[280px] p-4 rounded-lg border border-gray-800 bg-gray-900
+           hover:border-gray-700 transition-all duration-200 cursor-pointer
+           snap-start;
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  .carousel-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+  }
+
+  .carousel-nav {
+    @apply absolute top-1/2 -translate-y-4 bg-gray-800/80 rounded-full p-2
+           text-white shadow-md disabled:opacity-40 disabled:cursor-not-allowed z-10;
+  }
+
+  .carousel-nav-left {
+    @apply left-1;
+  }
+
+  .carousel-nav-right {
+    @apply right-1;
+  }
+
+  /* Terminal styles */
+  .terminal-fixed {
+    @apply bg-gray-900/95 border-t border-gray-800;
+    backdrop-filter: blur(16px);
+    box-shadow: 0 -8px 16px rgba(0, 0, 0, 0.2);
+  }
+
+  .terminal-input {
+    @apply text-gray-100 placeholder-gray-500 w-full bg-transparent;
+    caret-color: theme('colors.primary.500');
+  }
+
+  .terminal-input::before {
+    content: '>';
+    @apply text-gray-500 mr-2;
+  }
+
+  .terminal-history {
+    @apply max-h-[150px] mb-2 pr-2;
+  }
+}

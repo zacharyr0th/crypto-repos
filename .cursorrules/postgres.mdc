@@ -1,0 +1,103 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+---
+description: Rules and best practices for PostgreSQL database usage in the project
+globs: ["**/*.{sql,ts,js,prisma}"]
+---
+
+## Database Configuration
+
+- Connection string format: `DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}`
+- Default database: ${POSTGRES_DB}
+- Default port: ${POSTGRES_PORT}
+- Connection pooling recommended with max 20 connections
+
+## Schema Structure
+
+- Primary Tables:
+  - `repositories`: Main table for crypto repository data
+  - `repository_topics`: Many-to-many relationship for topics
+  - `repository_contributors`: Contributor information
+
+## Indexes and Performance
+
+### Text Search Optimization
+- Use lower-case indexes for case-insensitive searches:
+  ```sql
+  idx_repositories_name_lower
+  idx_repositories_description_lower
+  idx_repositories_full_name_lower
+  ```
+
+### Sorting Optimization
+- B-tree indexes for common sorting patterns:
+  ```sql
+  idx_repositories_stars (stargazers_count DESC NULLS LAST)
+  idx_repositories_updated (updated_at DESC NULLS LAST)
+  idx_repositories_forks (forks_count DESC NULLS LAST)
+  idx_repositories_created (created_at DESC NULLS LAST)
+  idx_repositories_contributors_count (contributors_count DESC NULLS LAST)
+  ```
+
+### Filtered Search Optimization
+- Composite indexes for common filter combinations:
+  ```sql
+  idx_repositories_ecosystem_stars (ecosystem, stargazers_count)
+  idx_repositories_language_stars (language, stargazers_count)
+  idx_repositories_category_stars (category, stargazers_count)
+  idx_repositories_ecosystem_language (ecosystem, language)
+  idx_repositories_category_language (category, language)
+  ```
+
+### Partial Indexes
+- Optimize popular repository queries:
+  ```sql
+  idx_repositories_popular WHERE stargazers_count > 100
+  idx_repositories_fork WHERE fork = false
+  ```
+
+## Query Optimization
+
+- Use prepared statements for frequent queries
+- Leverage existing indexes for WHERE clauses and JOINs
+- Implement pagination using indexed columns
+- Use transactions for data consistency
+- Consider query plan analysis for complex queries
+
+## Data Types
+
+- Use appropriate PostgreSQL types:
+  - `BIGINT` for IDs and counts
+  - `VARCHAR(255)` for URLs and names
+  - `TIMESTAMP WITH TIME ZONE` for timestamps
+  - `BOOLEAN` for flags
+  - `TEXT` for long descriptions
+
+## Maintenance
+
+- Regular VACUUM and ANALYZE for optimal performance
+- Monitor index usage and remove unused indexes
+- Keep statistics up to date for query planner
+- Implement regular backups
+- Monitor table bloat and growth
+
+## Security
+
+- Use role-based access control with ${POSTGRES_USER} as admin
+- Implement row-level security where needed
+- Store sensitive data encrypted
+- Regular security audits
+- Monitor database access patterns
+
+## Development Guidelines
+
+- Use Prisma as the primary ORM
+- Follow migration patterns in 002_add_search_indexes.sql
+- Test queries with EXPLAIN ANALYZE
+- Keep development schema in sync with production
+- Use environment variables for configuration
+
+@file ../prisma/schema.prisma

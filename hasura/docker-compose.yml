@@ -1,0 +1,17 @@
+services:
+  graphql-engine:
+    image: hasura/graphql-engine:v2.30.0
+    ports:
+      - '8080:8080'
+    restart: always
+    environment:
+      ## postgres connection string (passed from host environment)
+      HASURA_GRAPHQL_DATABASE_URL: '${DATABASE_URL}'
+      ## enable the console served by server
+      HASURA_GRAPHQL_ENABLE_CONSOLE: 'true'
+      ## enable debugging mode. It is recommended to disable this in production
+      HASURA_GRAPHQL_DEV_MODE: 'true'
+      HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
+      ## admin secret (passed from host environment or default)
+      HASURA_GRAPHQL_ADMIN_SECRET: '${NEXT_PUBLIC_HASURA_ADMIN_SECRET:-crypto-repos-admin-secret}'
+      HASURA_GRAPHQL_UNAUTHORIZED_ROLE: 'anonymous'

@@ -1,0 +1,50 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+---
+description: Rules and best practices for CSS and Tailwind CSS usage in the project
+globs: ["**/*.{css,scss,jsx,tsx,html}"]
+---
+
+## Tailwind CSS Usage
+
+- Use Tailwind utility classes as the primary styling approach
+- Follow the mobile-first responsive design pattern
+- Utilize Tailwind's responsive prefixes (sm:, md:, lg:, xl:, 2xl:) consistently
+- Prefer Tailwind's color palette over custom colors for consistency
+- Use the `@apply` directive in CSS files only when necessary for reusable components
+
+## Component Styling
+
+- Group related utility classes for readability
+- Use consistent ordering of utility classes (layout → typography → visual)
+- Extract common patterns to components rather than duplicating utility combinations
+- Utilize Tailwind's arbitrary value syntax (e.g., `w-[762px]`) only when necessary
+- Implement dark mode using Tailwind's dark: variant when required
+
+## Custom CSS
+
+- Minimize custom CSS in favor of Tailwind utilities
+- Place custom CSS in component-specific CSS modules when needed
+- Follow BEM naming convention for any custom CSS classes
+- Use CSS variables for theme values that need to be shared
+- Keep custom CSS organized and well-documented
+
+## Tailwind Configuration
+
+- Extend the Tailwind theme rather than overriding it completely
+- Document custom extensions to the theme in the tailwind.config.js file
+- Use semantic naming for custom theme extensions
+- Keep the tailwind.config.js file organized and well-commented
+- Purge unused styles in production builds
+
+## Best Practices
+
+- Avoid inline styles except for truly dynamic values
+- Use consistent spacing based on the Tailwind spacing scale
+- Implement a11y best practices using Tailwind's accessibility utilities
+- Prefer Tailwind's built-in transitions and animations
+- Maintain a consistent visual hierarchy using Tailwind's typography utilities
+

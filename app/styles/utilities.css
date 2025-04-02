@@ -1,0 +1,80 @@
+/* Utility Styles
+ * This file contains utility classes and animations.
+ */
+
+@tailwind utilities;
+
+@layer utilities {
+  /* Hide scrollbars */
+  .scrollbar-hide {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  /* Animations */
+  .animate-fade {
+    animation: fade 200ms ease-out;
+  }
+
+  .animate-slide-up {
+    animation: slide-up 200ms ease-out;
+  }
+
+  .animate-search-progress {
+    animation: searchProgress 1s ease-in-out infinite;
+  }
+
+  .animate-fade-in {
+    animation: fade-in 250ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+}
+
+/* Keyframes */
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes searchProgress {
+  0% {
+    width: 0%;
+    opacity: 1;
+  }
+  50% {
+    width: 100%;
+    opacity: 1;
+  }
+  100% {
+    width: 100%;
+    opacity: 0;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

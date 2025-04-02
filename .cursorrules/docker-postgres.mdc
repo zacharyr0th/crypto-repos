@@ -1,0 +1,125 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+---
+description: Rules and best practices for running PostgreSQL in Docker containers
+globs: ["**/docker-compose.yml", "**/*.dockerfile", "**/Dockerfile"]
+---
+
+## Container Configuration
+
+- Use PostgreSQL 14.5 or later for all required features
+- Configure shared_buffers based on available RAM (25% recommended)
+- Enable appropriate extensions for text search
+- Set work_mem appropriately for complex sorts and joins
+- Configure max_connections aligned with connection pool size
+
+## Environment Variables
+
+- Use environment variables from .env.local:
+  ```yaml
+  POSTGRES_USER: ${POSTGRES_USER}
+  POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+  POSTGRES_DB: ${POSTGRES_DB}
+  POSTGRES_HOST: ${POSTGRES_HOST}
+  POSTGRES_PORT: ${POSTGRES_PORT}
+  ```
+- Store sensitive environment variables in a separate .env file for production
+- Use Docker secrets for sensitive data in production environments
+
+## Performance Tuning
+
+```yaml
+command: 
+  - "postgres"
+  - "-c"
+  - "shared_buffers=1GB"
+  - "-c"
+  - "work_mem=32MB"
+  - "-c"
+  - "maintenance_work_mem=256MB"
+  - "-c"
+  - "effective_cache_size=3GB"
+  - "-c"
+  - "random_page_cost=1.1"
+  - "-c"
+  - "max_connections=100"
+```
+
+## Data Persistence
+
+- Always use named volumes for data persistence
+- Mount the volume to `/var/lib/postgresql/data`
+- Implement regular backup strategy:
+  ```yaml
+  volumes:
+    - postgres_data:/var/lib/postgresql/data
+    - ./backups:/backups
+  ```
+- Consider using host path volumes for development
+
+## Docker Compose Setup
+
+```yaml
+version: '3.8'
+services:
+  db:
+    image: postgres:14.5
+    restart: always
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backups:/backups
+    command:
+      - "postgres"
+      - "-c"
+      - "shared_buffers=1GB"
+      - "-c"
+      - "work_mem=32MB"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+        reservations:
+          memory: 1G
+
+volumes:
+  postgres_data:
+    name: crypto_repos_postgres_data
+```
+
+## Initialization
+
+- Include schema.sql in docker-entrypoint-initdb.d
+- Apply migrations in order:
+  1. schema.sql
+  2. 002_add_search_indexes.sql
+  3. 003_add_contributors.sql
+  4. 004_add_avatar_url.sql
+
+Example:
+```yaml
+volumes:
+  - ./lib/db/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+  - ./lib/db/migrations:/docker-entrypoint-initdb.d/migrations
+```
+
+## Monitoring
+
+- Enable PostgreSQL logging
+- Configure log rotation
+- Monitor container resource usage
+- Set up alerting for disk space and performance
+- Regular VACUUM and maintenance schedule
