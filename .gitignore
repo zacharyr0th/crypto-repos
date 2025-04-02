@@ -67,6 +67,20 @@ azure.json
 !example.env
 !template.env
 
+# Additional security files
+**/*password*
+**/*passwd*
+**/*auth*
+**/*.jks
+**/*.keystore
+**/*.truststore
+**/*.htpasswd
+**/*.netrc
+.npmrc
+.yarnrc
+**/.npmrc
+**/.yarnrc
+
 # =================================================================
 # BUILD & DEPENDENCY DIRECTORIES
 # =================================================================
@@ -252,3 +266,86 @@ _site/
 /logs/
 tmp/
 temp/
+
+# =================================================================
+# PROGRAMMING LANGUAGES & FRAMEWORKS
+# =================================================================
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+venv/
+ENV/
+env/
+.venv/
+
+# Java/Gradle/Maven
+target/
+.gradle/
+build/
+out/
+*.class
+*.jar
+
+# Rust
+/target/
+Cargo.lock
+
+# Go
+/go.sum
+
+# =================================================================
+# INFRASTRUCTURE & DEPLOYMENT
+# =================================================================
+
+# Terraform
+.terraform/
+terraform.tfstate
+terraform.tfstate.backup
+*.tfvars
+.terragrunt-cache/
+
+# Docker
+.docker/
+docker-compose.override.yml
+
+# CI/CD
+.github/.ci_status
+.circleci/*local*
+.gitlab-ci-local/
+
+# =================================================================
+# DEVELOPMENT & LOCAL FILES
+# =================================================================
+
+# Local configuration files
+.localrc
+config.local.js
+config.dev.js
+
+# Personal notes
+NOTES.md
+TODO.md
+FIXME.md
+*.todo
+*.notes
+
+# =================================================================
+# TEMPORARY & BACKUP FILES
+# =================================================================
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.swp
+*~
+.*.swp
+.*.swo
